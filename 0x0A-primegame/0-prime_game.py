@@ -1,5 +1,9 @@
 #!/usr/bin/python3
 
+"""
+prime game
+"""
+
 def isWinner(x, nums):
     winner = []
     for num in nums:
@@ -7,6 +11,9 @@ def isWinner(x, nums):
     if winner.count('Ben') > (len(winner)/2):
         return 'Ben'
     return "Maria"
+    """
+    cakcuates who win
+    """
 
 
 def roundWinner(x, num):
