@@ -1,35 +1,31 @@
 #!/usr/bin/python3
+""" Module for Prime Game """
+
 
 def isWinner(x, nums):
-    '''
-    Returns the name of the winner
-    '''
-    winner = []
-    for num in nums:
-        winner.append(roundWinner(x, num))
-    if winner.count('Ben') > (len(winner)/2):
-        return 'Ben'
-    return 'Maria'
+    """Solves Prime Game"""
+    if not nums or x < 1:
+        return None
+    n = max(nums)
+    sieve = [True for _ in range(max(n + 1, 2))]
+    for i in range(2, int(pow(n, 0.5)) + 1):
+        if not sieve[i]:
+            continue
+        for j in range(i*i, n + 1, i):
+            sieve[j] = False
 
+    sieve[0] = sieve[1] = False
+    c = 0
+    for i in range(len(sieve)):
+        if sieve[i]:
+            c += 1
+        sieve[i] = c
 
-def roundWinner(x, num):
-    '''
-    Calculates who wons every round
-    '''
-    if num == 1:
-        return 'Ben'
-    if num == 2:
-        return 'Maria'
-    prime_numbers = 1
-    for n in range(3, num + 1):
-        i = 1
-        not_prime = 0
-        while (n - i) >= 2:
-            if n % (n - i) == 0:
-                not_prime += 1
-            i += 1
-        if not_prime == 0:
-            prime_numbers += 1
-    if prime_numbers % 2 == 0:
-        return 'Ben'
-    return 'Maria'
+    player1 = 0
+    for n in nums:
+        player1 += sieve[n] % 2 == 1
+    if player1 * 2 == len(nums):
+        return None
+    if player1 * 2 > len(nums):
+        return "Maria"
+    return "Ben"
